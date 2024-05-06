@@ -1,0 +1,14 @@
+services:
+  app:
+    network_mode: bridge
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: client-delta-twin
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - TZ=Europe/Tallinn

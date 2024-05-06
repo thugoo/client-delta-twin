@@ -1,0 +1,73 @@
+.floor-options {
+    z-index: 4;
+    text-align: center;
+    position: absolute;
+    border-radius: 10px;
+    top: 23px;
+    left: 320px;
+    user-select: none;
+}
+
+@media (max-width: 700px) {
+    .floor-options {
+        top: 67px;
+        left: 5%;
+    }
+}
+
+.icon-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.floor-options .icon-container {
+    background: #1a1c1d;
+    color: whitesmoke;
+    font-size: 14px;
+    transition: 0.1s background ease;
+    /* margin: 3px; */
+    width: 70px;
+    height: 30px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+
+.icon-container.active {
+    cursor: default;
+    background: #151718;
+}
+
+
+.icon-container:hover {
+    background: rgb(119, 119, 119);
+}
+
+
+.icon-container p {
+    margin: 10px;
+}
+
+.icon-container i {
+    padding-left: 10px;
+    font-size: 18px;
+}
+
+
+.tooltip-text {
+    z-index: 4;
+    height: 20px;
+    background-color: black;
+    color: white;
+    padding: 4px;
+    font-size: 12px;
+    border-radius: 5px;
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
+    position: absolute;
+    visibility: hidden;
+}

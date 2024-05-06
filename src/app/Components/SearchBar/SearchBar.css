@@ -1,0 +1,88 @@
+.search-form {
+    z-index: 5;
+    background-color: whitesmoke;
+    text-align: center;
+    position: absolute;
+    border-radius: 10px;
+    width: 290px;
+    /* max-height: 210px; */
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
+    top: 20px;
+    left: 20px;
+    user-select: none;
+}
+
+
+@media (max-width: 700px) {
+    .search-form {
+        width: 90%; /* Adjust width to 90% of the screen size */
+        left: 5%; /* Center form by setting left to 5% */
+        right: 5%; /* Optionally, ensures the form doesn't stretch beyond the viewable area */
+    }
+}
+
+
+input {
+    height: 42px;
+    width: 100%;
+    border-radius: 10px;
+    font-size: 15px;
+    padding: 0px 0px 0px 0px;
+    border: none;
+    color: rgba(0, 0, 0, 0.5);
+    text-indent: 20px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    outline: none;
+}
+
+
+input:focus {
+    color: rgba(0, 0, 0, 1);
+}
+
+
+#search-form.active input {
+    border-radius: 0px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+
+input:focus .auto-complete {
+    color: rgba(0, 0, 0, 0.1);
+}
+
+
+input::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+
+.data-item {
+    font-size: 15px;
+    text-indent: 20px;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    color: black;
+}
+
+.data-item:hover {
+    background-color: lightgrey;
+}
+
+.data-item-inactive {
+    font-size: 15px;
+    text-indent: 20px;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+#search-form.active .auto-complete {
+    opacity: 1;
+    pointer-events: auto;
+}

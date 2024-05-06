@@ -1,0 +1,43 @@
+#second {
+    text-shadow: none;
+    transition: opacity 0.05s linear;
+    position: absolute;
+}
+
+.room-group path:hover {
+    transition: fill-opacity 0.175s ease;
+    fill-opacity: 0.8;
+}
+
+
+.room-group path {
+    stroke-opacity:0;
+    fill-opacity: 0.5;
+    transition: fill 0.15s ease, fill-opacity 0.175s ease;
+    cursor: pointer;
+}
+
+
+.static-text {
+    pointer-events: none;
+    user-select: none;
+    font-family: 'Segoe UI';
+    text-align: center;
+    text-anchor: middle;
+}
+
+
+.dynamic-text {
+    pointer-events: none;
+    user-select: none;
+    font-family: 'Segoe UI';
+    text-align: center;
+    text-anchor: middle;
+}
+
+
+svg {
+    width: 100%;
+    height: 100%;
+    /* max-height: 100%; */
+}
