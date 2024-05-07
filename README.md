@@ -1,16 +1,13 @@
 # Delta Twin
 
-Platform for visualizing the current status of the Delta Centre's study and research facility. It uses real-time data collected from the building's automation system and various deployed sensors.
+Platform for displaying the current status of the Delta Centre's study and research facility, utilizing real-time data from the building’s automation system and various deployed sensors.
 
-Platform is available at http://172.17.89.119.nip.io. Access requires a connection to the UT VPN.
+**This project contains the source code for the web application developed with Next.js.**  
+Project containing the source code for the backend services can be found [here.](https://github.com/thugoo/api-delta-twin)
 
-The platform is composed of data querying services, an API for broadcasting data, and a web application.
+Web application is available at http://172.17.89.119.nip.io. Access requires a connection to the UT VPN.
 
-**This project includes the source code for the web application built using Next.js.**
-
-Project containing the source code for the data querying services and the API can be found here: https://gitlab.ut.ee/hugo.martin.teemus/api-delta-twin
-
-Diagram of the workflow:
+**Workflow flowchart:**
 
 ![Workflow](workflow.svg)
 
@@ -18,11 +15,9 @@ Diagram of the workflow:
 
 # Deploying the web application
 
-The web application is deployed using Docker.
+The web application utilizes Docker for deployment
 
-To build the image and start the container running the web application, navigate to the project directory in your terminal.
+To build and start the container, follow these steps:
 
-Then, execute the following command:
-`sudo docker compose up --build`
-
-This command builds the necessary Docker image and starts the container.
+1. Open your terminal and navigate to the project directory.
+2. Run the command `docker compose up --build` in your terminal.
