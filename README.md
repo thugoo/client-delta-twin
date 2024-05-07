@@ -43,7 +43,7 @@ Web application is available at http://172.17.89.119.nip.io. Access requires a c
                 page.js               // Visualizations based on filters specified in the URL parameters
 ```
 
-# Deploying the web application
+# Deployment
 
 The web application utilizes Docker for deployment
 
