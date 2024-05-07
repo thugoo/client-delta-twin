@@ -7,14 +7,15 @@ Project containing the source code for the backend services can be found [here.]
 
 Web application is available at http://172.17.89.119.nip.io. Access requires a connection to the UT VPN.
 
-**Workflow flowchart:**
+<br>
+
+## Workflow flowchart
 
 ![Workflow](workflow-flowchart.svg)
 
 <br>
 
-
-# Project structure
+## Project structure
 ```
 /
 │   ...
@@ -44,7 +45,9 @@ Web application is available at http://172.17.89.119.nip.io. Access requires a c
                 page.js               // Visualizations based on filters specified in the URL parameters
 ```
 
-# Deployment
+<br>
+
+## Deployment
 
 The web application utilizes Docker for deployment
 
