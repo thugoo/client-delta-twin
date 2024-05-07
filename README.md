@@ -2,6 +2,8 @@
 
 Platform for displaying the current status of the Delta Centre's study and research facility, utilizing real-time data from the building’s automation system and various deployed sensors.
 
+https://github.com/thugoo/client-delta-twin/assets/16036779/b930d955-c1b9-4e74-9d4b-13d0ecfbac4d
+
 **This project contains the source code for the web application developed with Next.js.**  
 Project containing the source code for the backend services can be found [here.](https://github.com/thugoo/api-delta-twin)
 
