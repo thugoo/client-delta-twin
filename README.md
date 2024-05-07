@@ -17,8 +17,8 @@ Web application is available at http://172.17.89.119.nip.io. Access requires a c
 # Project structure
 ```
 │   ...
-│   docker-compose.yaml                // Defines services, networks, and volumes for all containers.
-│   Dockerfile                         // Defines the steps to build the Docker image for the main application.
+│   docker-compose.yaml                // Defines services, networks, and volumes for all containers
+│   Dockerfile                         // Defines the steps to build the Docker image for the main application
 │   ...
 │   workflow.svg                       // Workflow flowchart
 │
