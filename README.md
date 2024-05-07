@@ -13,6 +13,36 @@ Web application is available at http://172.17.89.119.nip.io. Access requires a c
 
 <br>
 
+
+# Project structure
+```
+│   ...
+│   docker-compose.yaml                // Defines services, networks, and volumes for all containers.
+│   Dockerfile                         // Defines the steps to build the Docker image for the main application.
+│   ...
+│   workflow.svg                       // Workflow flowchart
+│
+├───public
+│
+└───src
+    └───app
+        │   ...
+        │   page.js                   // Main page of the web application
+        │   ...
+        │
+        ├───Components
+        │   ├───DataFilter            // Data type filtering buttons
+        │   ├───FirstFloor            // First floor
+        │   ├───FloorFilter           // Floor filtering buttons
+        │   ├───Popup                 // Pop-up window
+        │   ├───SearchBar             // Search bar
+        │   ├───SecondFloor           // Second floor
+        │   └───SideBar               // Side panel
+        │
+        └───display
+                page.js               // Visualizations based on filters specified in the URL parameters
+```
+
 # Deploying the web application
 
 The web application utilizes Docker for deployment
@@ -21,3 +51,4 @@ To build and start the container, follow these steps:
 
 1. Open your terminal and navigate to the project directory.
 2. Run the command `docker compose up --build` in your terminal.
+
