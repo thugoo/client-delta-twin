@@ -55,6 +55,10 @@ The web application utilizes Docker for deployment
 
 To build and start the container, follow these steps:
 
-1. Open your terminal and navigate to the project directory.
-2. Run the command `docker compose up --build` in your terminal.
+1. Open your terminal and navigate to the project directory.  
+
+2. Ensure that the "apiUrl" value in \src\app\api.js matches the API service's URL.  
+
+3. Run the command `docker compose up --build` in your terminal.  
+
 
