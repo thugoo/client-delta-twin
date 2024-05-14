@@ -1,28 +1,60 @@
-# Delta Twin
+# Delta Twin - web application
 
-Platform for visualizing the current status of the Delta Centre's study and research facility. It uses real-time data collected from the building's automation system and various deployed sensors.
+Platform for displaying the current status of the Delta Centre's study and research facility, utilizing real-time data from the building’s automation system and various deployed sensors.
 
-Platform is available at http://172.17.89.119.nip.io. Access requires a connection to the UT VPN.
+https://github.com/thugoo/client-delta-twin/assets/16036779/b930d955-c1b9-4e74-9d4b-13d0ecfbac4d
 
-The platform is composed of data querying services, an API for broadcasting data, and a web application.
+**This project contains the source code for the web application developed with Next.js.**  
+Project containing the source code for the backend services can be found [here.](https://github.com/thugoo/api-delta-twin)
 
-**This project includes the source code for the web application built using Next.js.**
-
-Project containing the source code for the data querying services and the API can be found here: https://gitlab.ut.ee/hugo.martin.teemus/api-delta-twin
-
-Diagram of the workflow:
-
-![Workflow](workflow.svg)
+Web application is available at http://172.17.89.119.nip.io. Access requires a connection to the UT VPN.
 
 <br>
 
-# Deploying the web application
+## Workflow flowchart
 
-The web application is deployed using Docker.
+![Workflow](workflow-flowchart.svg)
 
-To build the image and start the container running the web application, navigate to the project directory in your terminal.
+<br>
 
-Then, execute the following command:
-`sudo docker compose up --build`
+## Project structure
+```
+/
+│   ...
+│   docker-compose.yaml                // Defines services, networks, and volumes for all containers
+│   Dockerfile                         // Defines the steps to build the Docker image for the main application
+│   ...
+│   workflow-flowchart.svg             // Workflow flowchart
+│
+├───public
+│
+└───src
+    └───app
+        │   ...
+        │   page.js                   // Main page of the web application
+        │   ...
+        │
+        ├───Components
+        │   ├───DataFilter            // Data type filtering buttons
+        │   ├───FirstFloor            // First floor
+        │   ├───FloorFilter           // Floor filtering buttons
+        │   ├───Popup                 // Pop-up window
+        │   ├───SearchBar             // Search bar
+        │   ├───SecondFloor           // Second floor
+        │   └───SideBar               // Side panel
+        │
+        └───display
+                page.js               // Visualizations based on filters specified in the URL parameters
+```
 
-This command builds the necessary Docker image and starts the container.
+<br>
+
+## Deployment
+
+The web application utilizes Docker for deployment
+
+To build and start the container, follow these steps:
+
+1. Open your terminal and navigate to the project directory.
+2. Run the command `docker compose up --build` in your terminal.
+
