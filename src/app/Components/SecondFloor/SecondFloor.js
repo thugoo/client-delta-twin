@@ -4,6 +4,7 @@ import './SecondFloor.css';
 
 function SecondFloor({ hide, toggleSelectedPath, colorValues, data, timetableData, filter }, ref) {
 
+    // Parameters to move the text elements to correct positions
     const specialParameters = {
         "2010": {
             "x": -30,
@@ -35,6 +36,7 @@ function SecondFloor({ hide, toggleSelectedPath, colorValues, data, timetableDat
         setIds(pathIds);
     }, []);
 
+    // Generates the props for <text> elements displaying the room number, located in the middle of the room
     const handleNumberProps = (pathId) => {
         let path = document.getElementById(pathId);
         if (path) {
@@ -92,6 +94,7 @@ function SecondFloor({ hide, toggleSelectedPath, colorValues, data, timetableDat
         }
     };
 
+    // Generates the props for <text> elements displaying the data value, located in the middle of the room
     const handleTextProps = (pathId) => {
         let path = document.getElementById(pathId);
         if (path) {

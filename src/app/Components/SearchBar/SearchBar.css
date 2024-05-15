@@ -5,7 +5,6 @@
     position: absolute;
     border-radius: 10px;
     width: 290px;
-    /* max-height: 210px; */
     box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
     top: 20px;
     left: 20px;
@@ -15,9 +14,9 @@
 
 @media (max-width: 700px) {
     .search-form {
-        width: 90%; /* Adjust width to 90% of the screen size */
-        left: 5%; /* Center form by setting left to 5% */
-        right: 5%; /* Optionally, ensures the form doesn't stretch beyond the viewable area */
+        width: 90%;
+        left: 5%;
+        right: 5%;
     }
 }
 

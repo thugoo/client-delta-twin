@@ -13,7 +13,8 @@ export default function SideBar({ sideBarCollapsed, toggleSideBar, selectedPath,
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
-
+        // If browser window width is smaller than 700px,
+        // change to the mobile-friendly layout.
         function handleResize() {
             if (window.innerWidth < 700) {
                 setIsMobile(true);
@@ -80,16 +81,16 @@ export default function SideBar({ sideBarCollapsed, toggleSideBar, selectedPath,
                 <div>
                     <h1 style={{ color: popupColors.occupancy }}>{value}</h1>
                     <div className="side-bar-timetable">
-                        {/* Row 1 */}
+
                         <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderRight: "1px white dotted", borderBottom: "1px white dotted" }}>Title</div>
                         <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderBottom: "1px white dotted"}}>{timetableData[selectedPath.id].current_event.title}</div>
-                        {/* Row 2 */}
+
                         <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderRight: "1px white dotted", borderBottom: "1px white dotted" }}>Type</div>
                         <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderBottom: "1px white dotted" }}>{timetableData[selectedPath.id].current_event.study_work_type}</div>
-                        {/* Row 3 */}
+
                         <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderRight: "1px white dotted", borderBottom: "1px white dotted"  }}>Begin time</div>
                         <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderBottom: "1px white dotted" }}>{timetableData[selectedPath.id].current_event.begin_time}</div>
-                        {/* Row 4 */}
+                        
                         <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderRight: "1px white dotted"  }}>End time</div>
                         <div className="timetable-row" style={{ padding: '10px 10px', color: "white" }}>{timetableData[selectedPath.id].current_event.end_time}</div>
                     </div>

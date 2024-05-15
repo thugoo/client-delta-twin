@@ -11,6 +11,7 @@ import './Popup.css';
 
 export default function Popup({ location, text, popupVisible, setSelectedPath, popupColors, svgRef }) {
 
+    // Passing the scrolling event to the floor plan
     useEffect(() => {
         const handleWheel = (event) => {
             event.preventDefault();

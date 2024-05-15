@@ -40,7 +40,6 @@ export default function SearchBar({ placeholder, data, toggleCentering, suggesti
                 setSuggestionsActive(true);
             } else {
                 setFilteredData(['No matches found'])
-                // setSuggestionsActive(false);
             }
         }
     };

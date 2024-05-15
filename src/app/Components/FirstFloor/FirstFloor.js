@@ -4,6 +4,7 @@ import './FirstFloor.css';
 
 function FirstFloor({ hide, toggleSelectedPath, colorValues, data, timetableData, filter }, ref) {
 
+    // Parameters to move the text elements to correct positions
     const specialParameters = {
         "1003": {
             "x": 20,
@@ -56,13 +57,6 @@ function FirstFloor({ hide, toggleSelectedPath, colorValues, data, timetableData
         },
     }
 
-    // const specialParametersNumber = {
-    //     "1003": {
-    //         "x": 20,
-    //         "y": 0
-    //     }
-    // }
-
     const [ids, setIds] = useState([]);
 
     useEffect(() => {
@@ -71,6 +65,7 @@ function FirstFloor({ hide, toggleSelectedPath, colorValues, data, timetableData
         setIds(pathIds);
     }, []);
 
+    // Generates the props for <text> elements displaying the room number, located in the middle of the room
     const handleNumberProps = (pathId) => {
         let path = document.getElementById(pathId);
         if (path) {
@@ -128,6 +123,7 @@ function FirstFloor({ hide, toggleSelectedPath, colorValues, data, timetableData
         }
     };
 
+    // Generates the props for <text> elements displaying the data value, located in the middle of the room
     const handleTextProps = (pathId) => {
         let path = document.getElementById(pathId);
         if (path) {

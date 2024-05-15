@@ -8,6 +8,12 @@ import SecondFloor from '../Components/SecondFloor/SecondFloor';
 import FirstFloor from '../Components/FirstFloor/FirstFloor';
 
 
+// Use the domain name assigned to the API service
+const apiUrl = "http://172.17.89.119.nip.io/api"
+
+// For local testing
+// const apiUrl = "http://localhost:5000/api"
+
 export default function Display({
     searchParams,
 }) {
@@ -44,6 +50,7 @@ export default function Display({
         return ["hsl(", hue, ",100%,50%)"].join("");
     }
 
+    // Floor and filter parameters from the URL
     const floor = searchParams["floor"];
     const filter = searchParams["filter"];
 
@@ -56,9 +63,10 @@ export default function Display({
         let ids = [];
 
         paths.forEach((path) => {
-            let id = path.id; // Replace 'name' with the actual attribute name
+            let id = path.id;
             ids.push(id);
         });
+
         setSearchData(ids);
     }
 
@@ -71,6 +79,7 @@ export default function Display({
         let svg = d3.select(`#${floor}`);
         let zoom = d3.zoom().on('zoom', handleZoom);
 
+        // X coordinate transform based on the configured floor
         let transformX = floor == "first" ? -1230 : -1330;
 
         let startTransform = d3.zoomIdentity.translate(transformX, -3300).scale(2);
@@ -78,6 +87,7 @@ export default function Display({
 
         svg.call(zoom.transform, startTransform);
 
+        // Animation for the smooth scrolling from the bottom to top
         svg.transition()
             .duration(10000)
             .ease(d3.easeLinear)
@@ -96,9 +106,6 @@ export default function Display({
     const [data, setData] = useState({});
     const [timetableData, setTimetableData] = useState({});
 
-    const apiUrl = "http://172.17.89.119.nip.io/api"
-    // const apiUrl = "http://localhost:5000/api"
-
     useEffect(() => {
         generateSearchData();
         const fetchData = async () => {
@@ -111,6 +118,7 @@ export default function Display({
         initZoom();
     }, []);
 
+    // Bottom description handling based on floor and filter values 
     let displayFilter; 
 
     if (filter == "occupancy") {

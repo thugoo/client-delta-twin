@@ -23,22 +23,38 @@ const apiUrl = "http://172.17.89.119.nip.io/api"
 
 function Home() {
 
-    //  This state holds the path element of the selected room.
-    //  Used for displaying the information
+    
+
+    /**
+     * This state holds the path element of the selected room.
+     * Used for displaying the information.
+     * 
+     * If room is selected:
+     *  - pop-up window is displayed, containing information about the selected room
+     *  - side bar panel displays information about the selected room
+     *  - value inside search bar changes to the number of the selected room 
+     * 
+     * If room is not selected:
+     *  - pop-up window is hidden
+     *  - side bar panel does not display information about any room
+     * 
+     * 
+     */
     const [selectedPath, setSelectedPath] = useState(false);
+
     const toggleSelectedPath = (pathId) => {
         let query = document.getElementById(pathId);
         setSelectedPath(query);
-
         triggerPopupWindow(!popupWindow);
     };
 
+    
+    // useEffect for passing scroll events through pop-up window to the floor plan
     useEffect(() => {
         if (selectedPath) {
             const handleResize = () => {
                 updatePopupLocation();
             };
-
             window.addEventListener('resize', handleResize);
             return () => {
                 window.removeEventListener('resize', handleResize);
@@ -50,6 +66,8 @@ function Home() {
 
 
     const [colorValues, setColorValues] = useState("");
+
+    // Function for interpolating the color values.
     function getColor(type, value) {
 
         if (value == "No data") return "hsl(0, 0%, 50%)";
@@ -83,6 +101,8 @@ function Home() {
 
 
     const [filter, setFilter] = useState("temperature");
+
+    // useEffect to change the room text value according to the active filter
     useEffect(() => {
         let newColorValues = {};
         let value;
@@ -216,8 +236,11 @@ function Home() {
         );
 
     };
-    const updatePopupText = () => {
 
+    const updatePopupText = () => {
+        /**
+         * Updates the coordinates of the pop-up, based on the location of the room path that is connected to the pop-up by ID.
+         */
         let temperature;
         let co2;
         let occupancy;
@@ -249,6 +272,7 @@ function Home() {
         }
         setPopupText(text);
     };
+
     const updatePopupColors = () => {
 
         let temperature = data[selectedPath.id]["qe_temperature"];
@@ -271,6 +295,7 @@ function Home() {
     };
 
     useEffect(() => {
+        // If a room is selected, update the pop-up values accordingly
         if (selectedPath) {
             updatePopupLocation();
             updatePopupText();
@@ -279,6 +304,7 @@ function Home() {
         }
     }, [popupWindow]);
 
+    // useEffect that ensures the pop-up location coordinates are set before changing to visible.
     useEffect(() => {
         if (selectedPath) {
             setPopupVisible(true);
@@ -296,6 +322,7 @@ function Home() {
 
 
     const [center, triggerCenter] = useState(false);
+
     const toggleCentering = (pathId) => {
         if (pathId.charAt(0) == 1 && floor != "first") {
             toggleFloor("first");
@@ -306,6 +333,7 @@ function Home() {
         toggleSelectedPath(pathId);
         triggerCenter(!center);
     };
+
     const centerRoom = () => {
         /**
          * Center the given room path, in relation to the browser window.
@@ -326,17 +354,21 @@ function Home() {
             var centerWidth = contentBBox.width / 2;
             var centerHeight = contentBBox.height / 2;
 
+            // floor plan element viewbox width and height values.
             let width = document.getElementById(floor).getAttribute('viewBox').split(' ')[2];
             let height = document.getElementById(floor).getAttribute('viewBox').split(' ')[3];
 
-
             let translateX = centerWidth - x;
             let toRight = false;
-            // If center of the room path is to the right of the un-scaled middle point
+
+            // If the center of the room path 
+            // is to the right 
+            // of the middle point of floor plan that is unscaled
             if (translateX < 0) {
                 translateX = -(translateX) + width / 2;
                 toRight = true;
             }
+
             let percentageX = translateX / width;
 
             // Scaled middle point location of x
@@ -359,6 +391,7 @@ function Home() {
 
             let percentageY = translateY / height;
 
+            // Scaled middle point location of y
             let middleYScaled = -(height * scale / 2) + height / 2;
 
             let scaledY = height * scale * percentageY;
@@ -369,9 +402,7 @@ function Home() {
                 scaledY = -(scaledY - height / 2);
             }
 
-            // Display the pop-up for the room path.
-            // displayPopup(roomId);
-
+            // Smooth animation when centering the room
             svg.transition()
                 .duration(1000)
                 .call(zoom.transform, d3.zoomIdentity
@@ -379,6 +410,7 @@ function Home() {
                     .scale(scale));
         }
     }
+
     useEffect(() => {
         initZoom(true);
         centerRoom();
@@ -391,7 +423,7 @@ function Home() {
             d3.select(`#${floor} #content-group-${floor}`)
                 .attr('transform', e.transform);
 
-            // Update pop-up location when panning/zooming.
+            // Update pop-up location accordingly when panning/zooming the floor plan
             if (selectedPath) {
                 updatePopupLocation();
             }
@@ -399,15 +431,18 @@ function Home() {
 
         svg = d3.select(`#${floor}`);
 
+        // Closes the searchbar suggestions when mouse is clicked on the floor plan.
         svg.on("mousedown", function (event) {
             setSuggestionsActive(false)
         });
 
+        // Min scale is 0.8, max scale is 10
         zoom = d3.zoom()
             .scaleExtent([0.8, 10])
             .on('zoom', handleZoom);
 
         svg.call(zoom).on("dblclick.zoom", null);
+
 
         if (!reset) {
             svg.call(zoom.transform, d3.zoomIdentity);
@@ -417,13 +452,17 @@ function Home() {
     }
 
     const [sideBarCollapsed, setSideBarCollapsed] = useState(true)
+
     const toggleSideBar = () => {
         setSideBarCollapsed(!sideBarCollapsed);
     }
 
 
     const [suggestionsActive, setSuggestionsActive] = useState(false);
+
     const [searchData, setSearchData] = useState([]);
+
+    // Queries all <path> elements with class room-group for the search bar suggestions.
     const generateSearchData = () => {
         let paths = document.querySelectorAll(".room-group path");
         let ids = [];
@@ -435,10 +474,13 @@ function Home() {
         setSearchData(ids);
     }
 
-
+    // Temperature and CO2 data
     const [data, setData] = useState({});
+
+    // Timetable data
     const [timetableData, setTimetableData] = useState({});
 
+    // useEffect for querying data
     useEffect(() => {
         generateSearchData();
         const fetchData = async () => {
@@ -498,10 +540,12 @@ function Home() {
     }, [data, timetableData]);
 
 
-    // Used for passing the events to the floor component.
-    //
-    // E.g. wheel events are passed from popup component to floor components
-    // to enable zooming of the floor plan while hovering the popup component.
+    /** 
+     * Used for passing the events to the floor component.
+     * 
+     * E.g. wheel events are passed from popup component to floor components
+     * to enable zooming of the floor plan while hovering the popup component
+    */
     const firstSvgRef = useRef(null);
     const secondSvgRef = useRef(null);
 
