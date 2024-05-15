@@ -13,10 +13,10 @@ export default function SideBar({ sideBarCollapsed, toggleSideBar, selectedPath,
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
-        // If browser window width is smaller than 700px,
+        // If browser window width is 700px or smaller,
         // change to the mobile-friendly layout.
         function handleResize() {
-            if (window.innerWidth < 700) {
+            if (window.innerWidth < 701) {
                 setIsMobile(true);
             } else {
                 setIsMobile(false);
@@ -90,7 +90,7 @@ export default function SideBar({ sideBarCollapsed, toggleSideBar, selectedPath,
 
                         <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderRight: "1px white dotted", borderBottom: "1px white dotted"  }}>Begin time</div>
                         <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderBottom: "1px white dotted" }}>{timetableData[selectedPath.id].current_event.begin_time}</div>
-                        
+
                         <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderRight: "1px white dotted"  }}>End time</div>
                         <div className="timetable-row" style={{ padding: '10px 10px', color: "white" }}>{timetableData[selectedPath.id].current_event.end_time}</div>
                     </div>
