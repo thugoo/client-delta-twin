@@ -166,7 +166,6 @@ function FirstFloor({ hide, toggleSelectedPath, colorValues, measurements, timet
                         textContent = measurements[pathId][`${prefix}${filter}`] + suffix;
                     }
                 } else {
-                    console.log(measurements)
                     textContent = "";
                 }
 

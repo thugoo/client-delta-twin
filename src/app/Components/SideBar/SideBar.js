@@ -72,11 +72,22 @@ export default function SideBar({ sideBarCollapsed, toggleSideBar, selectedPath,
 
     const handleTimetable = () => {
         let value;
+        let timetableType;
 
-        if (timetablesSis[selectedPath.id]) {
-            value = timetablesSis[selectedPath.id].current_event ? "Booked" : "Empty";
-        } else {
-            value = "No data";
+        if (selectedPath.id.substring(0, 2) !== "QR") {
+            timetableType = timetablesSis;
+            if (timetablesSis[selectedPath.id] && !isEmpty(timetablesSis[selectedPath.id])) {
+                value = timetablesSis[selectedPath.id].current_event ? "Booked" : "Empty";
+            } else {
+                value = "No data";
+            }
+        } else if (selectedPath.id.substring(0, 2) === "QR") {
+            timetableType = timetablesDeltaqr;
+            if (timetablesDeltaqr[selectedPath.id] && !isEmpty(timetablesDeltaqr[selectedPath.id])) {
+                value = timetablesDeltaqr[selectedPath.id].current_event ? "Booked" : "Empty";
+            } else {
+                value = "No data";
+            }
         }
 
         if (value == "Booked") {
@@ -86,16 +97,16 @@ export default function SideBar({ sideBarCollapsed, toggleSideBar, selectedPath,
                     <div className="side-bar-timetable">
 
                         <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderRight: "1px white dotted", borderBottom: "1px white dotted" }}>Title</div>
-                        <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderBottom: "1px white dotted"}}>{timetablesSis[selectedPath.id].current_event.title}</div>
+                        <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderBottom: "1px white dotted"}}>{timetableType[selectedPath.id].current_event.title}</div>
 
                         <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderRight: "1px white dotted", borderBottom: "1px white dotted" }}>Type</div>
-                        <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderBottom: "1px white dotted" }}>{timetablesSis[selectedPath.id].current_event.study_work_type}</div>
+                        <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderBottom: "1px white dotted" }}>{timetableType[selectedPath.id].current_event.study_work_type}</div>
 
                         <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderRight: "1px white dotted", borderBottom: "1px white dotted"  }}>Begin time</div>
-                        <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderBottom: "1px white dotted" }}>{timetablesSis[selectedPath.id].current_event.begin_time}</div>
+                        <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderBottom: "1px white dotted" }}>{timetableType[selectedPath.id].current_event.begin_time}</div>
 
                         <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderRight: "1px white dotted"  }}>End time</div>
-                        <div className="timetable-row" style={{ padding: '10px 10px', color: "white" }}>{timetablesSis[selectedPath.id].current_event.end_time}</div>
+                        <div className="timetable-row" style={{ padding: '10px 10px', color: "white" }}>{timetableType[selectedPath.id].current_event.end_time}</div>
                     </div>
                 </div>
             );
