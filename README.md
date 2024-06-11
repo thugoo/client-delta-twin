@@ -60,4 +60,10 @@ To build and start the container, follow these steps:
 
 3. Run the command `docker compose up --build` in your terminal.  
 
+<br>
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
+
 
