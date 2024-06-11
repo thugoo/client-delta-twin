@@ -16,10 +16,10 @@ var svg;
 var zoom;
 
 // Use the domain name assigned to the API service
-// const apiUrl = "http://172.17.89.119.nip.io/api"
+const apiUrl = "http://172.17.89.119.nip.io/api"
 
 // For local testing
-const apiUrl = "http://localhost:5000/api"
+// const apiUrl = "http://localhost:5000/api"
 
 function isEmpty(obj) {
     return Object.keys(obj).length === 0;
