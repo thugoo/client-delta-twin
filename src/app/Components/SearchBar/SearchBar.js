@@ -17,7 +17,7 @@ function useOutsideAlerter(ref, setSuggestionsActive) {
 }
 
 
-export default function SearchBar({ placeholder, data, toggleCentering, suggestionsActive, setSuggestionsActive, selectedPath }) {
+export default function SearchBar({ placeholder, searchData, toggleCentering, suggestionsActive, setSuggestionsActive, selectedPath }) {
     const ref = useRef(null);
     useOutsideAlerter(ref, setSuggestionsActive);
 
@@ -27,7 +27,7 @@ export default function SearchBar({ placeholder, data, toggleCentering, suggesti
     const handleFilter = (event) => {
         const searchWord = event.target.value;
         setWordEntered(searchWord);
-        const newFilter = data.filter((key) => {
+        const newFilter = searchData.filter((key) => {
             return key.toLowerCase().includes(searchWord.toLowerCase());
         });
 
@@ -54,7 +54,7 @@ export default function SearchBar({ placeholder, data, toggleCentering, suggesti
     useEffect(() => {
         const searchWord = selectedPath ? selectedPath.id : ""
         setWordEntered(searchWord)
-        const newFilter = data.filter((key) => {
+        const newFilter = searchData.filter((key) => {
             return key.toLowerCase().includes(searchWord.toLowerCase());
         });
         if (searchWord === "") {

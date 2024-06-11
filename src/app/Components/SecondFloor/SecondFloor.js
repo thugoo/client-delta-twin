@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
-
 import './SecondFloor.css';
 
-function SecondFloor({ hide, toggleSelectedPath, colorValues, data, timetableData, filter }, ref) {
+
+function isEmpty(obj) {
+    return Object.keys(obj).length === 0;
+}
+
+
+function SecondFloor({ hide, toggleSelectedPath, colorValues, measurements, timetablesSis, timetablesDeltaqr, filter }, ref) {
 
     // Parameters to move the text elements to correct positions
     const specialParameters = {
@@ -52,12 +57,12 @@ function SecondFloor({ hide, toggleSelectedPath, colorValues, data, timetableDat
 
             let anyData = false;
 
-            if (data[pathId] && filter != "occupancy") {
+            if (measurements[pathId] && filter != "occupancy") {
                 let value_type = `qe_${filter}`
-                if (data[pathId][value_type] != "No data") {
+                if (measurements[pathId][value_type] != "No data") {
                     anyData = true;
                 }
-            } else if (timetableData[pathId]) {
+            } else if (timetablesSis[pathId]) {
                 anyData = true;
             }
 
@@ -115,8 +120,8 @@ function SecondFloor({ hide, toggleSelectedPath, colorValues, data, timetableDat
             let textContent;
 
             if (filter == "occupancy") {
-                if (timetableData[pathId]) {
-                    if (timetableData[pathId].current_event) {
+                if (timetablesSis[pathId]) {
+                    if (timetablesSis[pathId].current_event) {
                         textContent = "Booked";
                     } else {
                         textContent = "Empty";
@@ -125,11 +130,11 @@ function SecondFloor({ hide, toggleSelectedPath, colorValues, data, timetableDat
                     textContent = "";
                 }
             } else {
-                if (data[pathId]) {
-                    if (data[pathId][`${prefix}${filter}`] == "No data") {
+                if (measurements[pathId]) {
+                    if (measurements[pathId][`${prefix}${filter}`] == "No data") {
                         textContent = "";
                     } else {
-                        textContent = data[pathId][`${prefix}${filter}`] + suffix;
+                        textContent = measurements[pathId][`${prefix}${filter}`] + suffix;
                     }
                 } else {
                     textContent = "";

@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react';
-
 import { config } from "@fortawesome/fontawesome-svg-core";
 config.autoAddCss = false;
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight, faChevronLeft, faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
-
 import './SideBar.css';
 
-export default function SideBar({ sideBarCollapsed, toggleSideBar, selectedPath, data, timetableData, popupColors }) {
+
+function isEmpty(obj) {
+    return Object.keys(obj).length === 0;
+}
+
+
+export default function SideBar({ sideBarCollapsed, toggleSideBar, selectedPath, measurements, timetablesSis, timetablesDeltaqr, popupColors }) {
 
     const [isMobile, setIsMobile] = useState(false);
 
@@ -50,14 +53,14 @@ export default function SideBar({ sideBarCollapsed, toggleSideBar, selectedPath,
 
     const handleMeasurement = (type) => {
         let suffix = type == "temperature" ? "°C" : " ppm";
-        let value = data[selectedPath.id][`qe_${type}`];
+        let value = measurements[selectedPath.id][`qe_${type}`];
 
         if (value != "No data") {
             value += suffix;
             return (
                 <div>
                     <h1 style={{ color: popupColors[type] }} >{value}</h1>
-                    <p>Last measured: {convertTimestamp(data[selectedPath.id][`qe_${type}_time`])}</p>
+                    <p>Last measured: {convertTimestamp(measurements[selectedPath.id][`qe_${type}_time`])}</p>
                 </div>
             )
         }
@@ -70,8 +73,8 @@ export default function SideBar({ sideBarCollapsed, toggleSideBar, selectedPath,
     const handleTimetable = () => {
         let value;
 
-        if (timetableData[selectedPath.id]) {
-            value = timetableData[selectedPath.id].current_event ? "Booked" : "Empty";
+        if (timetablesSis[selectedPath.id]) {
+            value = timetablesSis[selectedPath.id].current_event ? "Booked" : "Empty";
         } else {
             value = "No data";
         }
@@ -83,16 +86,16 @@ export default function SideBar({ sideBarCollapsed, toggleSideBar, selectedPath,
                     <div className="side-bar-timetable">
 
                         <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderRight: "1px white dotted", borderBottom: "1px white dotted" }}>Title</div>
-                        <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderBottom: "1px white dotted"}}>{timetableData[selectedPath.id].current_event.title}</div>
+                        <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderBottom: "1px white dotted"}}>{timetablesSis[selectedPath.id].current_event.title}</div>
 
                         <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderRight: "1px white dotted", borderBottom: "1px white dotted" }}>Type</div>
-                        <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderBottom: "1px white dotted" }}>{timetableData[selectedPath.id].current_event.study_work_type}</div>
+                        <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderBottom: "1px white dotted" }}>{timetablesSis[selectedPath.id].current_event.study_work_type}</div>
 
                         <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderRight: "1px white dotted", borderBottom: "1px white dotted"  }}>Begin time</div>
-                        <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderBottom: "1px white dotted" }}>{timetableData[selectedPath.id].current_event.begin_time}</div>
+                        <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderBottom: "1px white dotted" }}>{timetablesSis[selectedPath.id].current_event.begin_time}</div>
 
                         <div className="timetable-row" style={{ padding: '10px 10px', color: "white", borderRight: "1px white dotted"  }}>End time</div>
-                        <div className="timetable-row" style={{ padding: '10px 10px', color: "white" }}>{timetableData[selectedPath.id].current_event.end_time}</div>
+                        <div className="timetable-row" style={{ padding: '10px 10px', color: "white" }}>{timetablesSis[selectedPath.id].current_event.end_time}</div>
                     </div>
                 </div>
             );

@@ -16,10 +16,14 @@ var svg;
 var zoom;
 
 // Use the domain name assigned to the API service
-const apiUrl = "http://172.17.89.119.nip.io/api"
+// const apiUrl = "http://172.17.89.119.nip.io/api"
 
 // For local testing
-// const apiUrl = "http://localhost:5000/api"
+const apiUrl = "http://localhost:5000/api"
+
+function isEmpty(obj) {
+    return Object.keys(obj).length === 0;
+}
 
 function Home() {
 
@@ -109,18 +113,28 @@ function Home() {
 
         searchData.forEach((key) => {
             if (filter == "occupancy") {
-                if (timetableData[key]) {
-                    value = timetableData[key].current_event ? "Booked" : "Empty";
-                } else {
-                    value = "No data";
+                if (key.substring(0, 2) !== "QR") {
+                    if (!isEmpty(timetablesSis[key])) {
+                        value = timetablesSis[key].current_event ? "Booked" : "Empty";
+                    } else {
+                        value = "No data";
+                    }
+                } else if (key.substring(0, 2) === "QR") {
+                    if (!isEmpty(timetablesDeltaqr[key])) {
+                        value = timetablesDeltaqr[key].current_event ? "Booked" : "Empty";
+                    } else {
+                        value = "No data";
+                    }
                 }
             } else {
-                value = data[key][`qe_${filter}`];
+                value = measurements[key][`qe_${filter}`];
             }
             let color = getColor(filter, value);
             newColorValues[key] = color;
         });
+
         setColorValues(newColorValues);
+
     }, [filter])
 
 
@@ -246,22 +260,30 @@ function Home() {
         let occupancy;
 
 
-        if (data[selectedPath.id]["qe_temperature"] == "No data") {
+        if (measurements[selectedPath.id]["qe_temperature"] == "No data") {
             temperature = "No data"
         } else {
-            temperature = `${data[selectedPath.id]["qe_temperature"]} °C`
+            temperature = `${measurements[selectedPath.id]["qe_temperature"]} °C`
         }
 
-        if (data[selectedPath.id]["qe_co2"] == "No data") {
+        if (measurements[selectedPath.id]["qe_co2"] == "No data") {
             co2 = "No data"
         } else {
-            co2 = `${data[selectedPath.id]["qe_co2"]} ppm`
+            co2 = `${measurements[selectedPath.id]["qe_co2"]} ppm`
         }
 
-        if (timetableData[selectedPath.id]) {
-            occupancy = timetableData[selectedPath.id].current_event ? "Booked" : "Empty";
-        } else {
-            occupancy = "No data";
+        if (selectedPath.id.substring(0, 2) !== "QR") {
+            if (!isEmpty(timetablesSis[selectedPath.id])) {
+                occupancy = timetablesSis[selectedPath.id].current_event ? "Booked" : "Empty";
+            } else {
+                occupancy = "No data";
+            }
+        } else if (selectedPath.id.substring(0, 2) === "QR") {
+            if (!isEmpty(timetablesDeltaqr[selectedPath.id])) {
+                occupancy = timetablesDeltaqr[selectedPath.id].current_event ? "Booked" : "Empty";
+            } else {
+                occupancy = "No data";
+            }
         }
 
         let text = {
@@ -275,14 +297,22 @@ function Home() {
 
     const updatePopupColors = () => {
 
-        let temperature = data[selectedPath.id]["qe_temperature"];
-        let co2 = data[selectedPath.id]["qe_co2"];
+        let temperature = measurements[selectedPath.id]["qe_temperature"];
+        let co2 = measurements[selectedPath.id]["qe_co2"];
         let occupancy;
 
-        if (timetableData[selectedPath.id]) {
-            occupancy = timetableData[selectedPath.id].current_event ? "Booked" : "Empty";
-        } else {
-            occupancy = "No data";
+        if (selectedPath.id.substring(0, 2) !== "QR") {
+            if (!isEmpty(timetablesSis[selectedPath.id])) {
+                occupancy = timetablesSis[selectedPath.id].current_event ? "Booked" : "Empty";
+            } else {
+                occupancy = "No data";
+            }
+        } else if (selectedPath.id.substring(0, 2) === "QR") {
+            if (!isEmpty(timetablesDeltaqr[selectedPath.id])) {
+                occupancy = timetablesDeltaqr[selectedPath.id].current_event ? "Booked" : "Empty";
+            } else {
+                occupancy = "No data";
+            }
         }
 
         setPopupColors(
@@ -475,19 +505,24 @@ function Home() {
     }
 
     // Temperature and CO2 data
-    const [data, setData] = useState({});
+    const [measurements, setMeasurements] = useState({});
 
-    // Timetable data
-    const [timetableData, setTimetableData] = useState({});
+    // SIS timetable data
+    const [timetablesSis, setTimetablesSis] = useState({});
+
+    // DeltaQR timetable data
+    const [timetablesDeltaqr, setTimetablesDeltaqr] = useState({});
 
     // useEffect for querying data
     useEffect(() => {
         generateSearchData();
         const fetchData = async () => {
-            const response = await axios.get(`${apiUrl}/measurements`);
-            setData(response.data);
-            const response_timetables = await axios.get(`${apiUrl}/timetables`);
-            setTimetableData(response_timetables.data);
+            const responseMeasurements = await axios.get(`${apiUrl}/measurements`);
+            setMeasurements(responseMeasurements.data);
+            const responseSis = await axios.get(`${apiUrl}/timetables_sis`);
+            setTimetablesSis(responseSis.data);
+            const responseDeltaqr = await axios.get(`${apiUrl}/timetables_deltaqr`);
+            setTimetablesDeltaqr(responseDeltaqr.data);
         };
 
         fetchData();
@@ -514,13 +549,21 @@ function Home() {
 
         searchData.forEach((key) => {
             if (filter == "occupancy") {
-                if (timetableData[key]) {
-                    value = timetableData[key].current_event ? "Booked" : "Empty";
-                } else {
-                    value = "No data";
+                if (key.substring(0, 2) !== "QR") {
+                    if (!isEmpty(timetablesSis[key])) {
+                        value = timetablesSis[key].current_event ? "Booked" : "Empty";
+                    } else {
+                        value = "No data";
+                    }
+                } else if (key.substring(0, 2) === "QR") {
+                    if (!isEmpty(timetablesDeltaqr[key])) {
+                        value = timetablesDeltaqr[key].current_event ? "Booked" : "Empty";
+                    } else {
+                        value = "No data";
+                    }
                 }
             } else {
-                value = data[key][`qe_${filter}`];
+                value = measurements[key][`qe_${filter}`];
             }
             let color = getColor(filter, value);
             newColorValues[key] = color;
@@ -537,7 +580,7 @@ function Home() {
         const formattedTime = currentTime.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
         document.title = `Delta Twin [${formattedTime}]`;
 
-    }, [data, timetableData]);
+    }, [measurements, timetablesSis, timetablesDeltaqr]);
 
 
     /** 
@@ -556,7 +599,7 @@ function Home() {
 
                 <SearchBar
                     placeholder="Search by room number"
-                    data={searchData}
+                    searchData={searchData}
                     toggleCentering={toggleCentering}
                     suggestionsActive={suggestionsActive}
                     setSuggestionsActive={setSuggestionsActive}
@@ -583,8 +626,8 @@ function Home() {
                     hide={floor == "first" ? false : true}
                     toggleSelectedPath={toggleSelectedPath}
                     colorValues={colorValues}
-                    data={data}
-                    timetableData={timetableData}
+                    measurements={measurements}
+                    timetablesSis={timetablesSis}
                     filter={filter}
                 />
 
@@ -593,8 +636,9 @@ function Home() {
                     hide={floor == "second" ? false : true}
                     toggleSelectedPath={toggleSelectedPath}
                     colorValues={colorValues}
-                    data={data}
-                    timetableData={timetableData}
+                    measurements={measurements}
+                    timetablesSis={timetablesSis}
+                    timetablesDeltaqr={timetablesDeltaqr}
                     filter={filter}
                 />
 
@@ -602,8 +646,9 @@ function Home() {
                     sideBarCollapsed={sideBarCollapsed}
                     toggleSideBar={toggleSideBar}
                     selectedPath={selectedPath}
-                    data={data}
-                    timetableData={timetableData}
+                    measurements={measurements}
+                    timetablesSis={timetablesSis}
+                    timetablesDeltaqr={timetablesDeltaqr}
                     popupColors={popupColors}
                 />
 

@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
-
 import './FirstFloor.css';
 
-function FirstFloor({ hide, toggleSelectedPath, colorValues, data, timetableData, filter }, ref) {
+
+function isEmpty(obj) {
+    return Object.keys(obj).length === 0;
+}
+
+
+function FirstFloor({ hide, toggleSelectedPath, colorValues, measurements, timetablesSis, filter }, ref) {
 
     // Parameters to move the text elements to correct positions
     const specialParameters = {
@@ -79,14 +84,15 @@ function FirstFloor({ hide, toggleSelectedPath, colorValues, data, timetableData
             let y = boundingBox.y + boundingBox.height / 2;
             let fontSize = (boundingBox.width < 100) ? "8px" : "16px";
 
+            // If there is data, move the room number higher on the room path element.
             let anyData = false;
 
-            if (data[pathId] && filter != "occupancy") {
+            if (measurements[pathId] && filter != "occupancy") {
                 let value_type = `qe_${filter}`
-                if (data[pathId][value_type] != "No data") {
+                if (measurements[pathId][value_type] != "No data") {
                     anyData = true;
                 }
-            } else if (timetableData[pathId]) {
+            } else if (timetablesSis[pathId] && !isEmpty(timetablesSis[pathId])) {
                 anyData = true;
             }
 
@@ -130,10 +136,10 @@ function FirstFloor({ hide, toggleSelectedPath, colorValues, data, timetableData
             let suffix;
             let prefix;
 
-            if (filter == "occupancy") {
+            if (filter === "occupancy") {
                 suffix = "";
                 prefix = "";
-            } else if (filter == "temperature") {
+            } else if (filter === "temperature") {
                 suffix = "°C";
                 prefix = "qe_";
             } else {
@@ -143,26 +149,27 @@ function FirstFloor({ hide, toggleSelectedPath, colorValues, data, timetableData
 
             let textContent;
 
-            if (filter == "occupancy") {
-                if (timetableData[pathId]) {
-                    if (timetableData[pathId].current_event) {
-                        textContent = "Booked";
-                    } else {
-                        textContent = "Empty";
-                    }
+            if (filter === "occupancy") {
+
+                if (timetablesSis[pathId] && !isEmpty(timetablesSis[pathId])) {
+                    textContent = timetablesSis[pathId].current_event ? "Booked" : "Empty";
                 } else {
                     textContent = "";
                 }
+
             } else {
-                if (data[pathId]) {
-                    if (data[pathId][`${prefix}${filter}`] == "No data") {
+
+                if (measurements[pathId] && !isEmpty(measurements[pathId])) {
+                    if (measurements[pathId][`${prefix}${filter}`] === "No data") {
                         textContent = "";
                     } else {
-                        textContent = data[pathId][`${prefix}${filter}`] + suffix;
+                        textContent = measurements[pathId][`${prefix}${filter}`] + suffix;
                     }
                 } else {
+                    console.log(measurements)
                     textContent = "";
                 }
+
             }
 
             let boundingBox = path.getBBox();
