@@ -24,7 +24,7 @@ Web application is available at http://172.17.89.119.nip.io. Access requires a c
 │   docker-compose.yaml                // Defines services, networks, and volumes for all containers
 │   Dockerfile                         // Defines the steps to build the Docker image for the main application
 │   ...
-│   workflow-flowchart.svg             // Workflow flowchart
+│   frontend_flowchart.svg             // Workflow flowchart of frontend web application.
 │
 ├───public
 │
