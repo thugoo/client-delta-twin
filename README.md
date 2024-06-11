@@ -13,7 +13,6 @@ Web application is available at http://172.17.89.119.nip.io. Access requires a c
 
 ## Workflow flowchart
 
-![Workflow](frontend_flowchart.svg)
 
 <br>
 
