@@ -62,7 +62,9 @@ function SecondFloor({ hide, toggleSelectedPath, colorValues, measurements, time
                 if (measurements[pathId][value_type] != "No data") {
                     anyData = true;
                 }
-            } else if (timetablesSis[pathId]) {
+            } else if (timetablesSis[pathId] && !isEmpty(timetablesSis[pathId])) {
+                anyData = true;
+            } else if (timetablesDeltaqr[pathId] && !isEmpty(timetablesDeltaqr[pathId])) {
                 anyData = true;
             }
 
@@ -119,17 +121,24 @@ function SecondFloor({ hide, toggleSelectedPath, colorValues, measurements, time
 
             let textContent;
 
-            if (filter == "occupancy") {
-                if (timetablesSis[pathId]) {
-                    if (timetablesSis[pathId].current_event) {
-                        textContent = "Booked";
+            if (filter === "occupancy") {
+
+                if (pathId.substring(0, 2) !== "QR") {
+                    if (timetablesSis[pathId] && !isEmpty(timetablesSis[pathId])) {
+                        textContent = timetablesSis[pathId].current_event ? "Booked" : "Empty";
                     } else {
-                        textContent = "Empty";
+                        textContent = "";
                     }
-                } else {
-                    textContent = "";
+                } else if (pathId.substring(0, 2) === "QR") {
+                    if (timetablesDeltaqr[pathId] && !isEmpty(timetablesDeltaqr[pathId])) {
+                        textContent = timetablesDeltaqr[pathId].current_event ? "Booked" : "Empty";
+                    } else {
+                        textContent = "";
+                    }
                 }
+
             } else {
+
                 if (measurements[pathId]) {
                     if (measurements[pathId][`${prefix}${filter}`] == "No data") {
                         textContent = "";
@@ -139,6 +148,7 @@ function SecondFloor({ hide, toggleSelectedPath, colorValues, measurements, time
                 } else {
                     textContent = "";
                 }
+
             }
 
             let boundingBox = path.getBBox();
