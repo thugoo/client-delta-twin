@@ -7,7 +7,7 @@ https://github.com/thugoo/client-delta-twin/assets/16036779/b930d955-c1b9-4e74-9
 **This project contains the source code for the web application developed with Next.js.**  
 Project containing the source code for the backend services can be found [here.](https://github.com/thugoo/api-delta-twin)
 
-Web application is available at http://172.17.89.119.nip.io. Access requires a connection to the UT VPN.
+Web application is available at http://172.17.89.249. Access requires a connection to the UT VPN.
 
 <br>
 
